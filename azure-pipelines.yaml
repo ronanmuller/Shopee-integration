@@ -1,0 +1,173 @@
+trigger:
+  - "*"
+
+pool:
+  vmImage: "ubuntu-latest"
+
+parameters:
+  - name: namespace
+    type: string
+    default: "gecom"
+  - name: application
+    type: string
+    default: "meli-api"
+  - name: description
+    type: string
+    default: "GE MELI API"
+
+stages:
+  - stage: Setup
+    jobs:
+      - job: Initialize
+        steps:
+          - script: |
+              if [ "$(Build.SourceBranchName)" == "master" ]; then
+                echo "##vso[task.setvariable variable=envVar;isOutput=true]prod"
+              elif [ "$(Build.SourceBranchName)" == "homolog" ]; then
+                echo "##vso[task.setvariable variable=envVar;isOutput=true]qa"
+                echo "##vso[task.setvariable variable=ecsCluster;isOutput=true]qa-gecom-cluster-liked-mackerel"
+              elif [ "$(Build.SourceBranchName)" == "develop" ]; then
+                echo "##vso[task.setvariable variable=envVar;isOutput=true]dev"
+                echo "##vso[task.setvariable variable=ecsCluster;isOutput=true]dev-gecom-cluster-logical-kingfish"
+              else
+                echo "##vso[task.setvariable variable=envVar;isOutput=true]unknown"
+                echo "##vso[task.setvariable variable=ecsCluster;isOutput=true]unknown"
+              fi
+            displayName: "Setting environment"
+            name: BranchName
+
+          - script: |
+              echo "##vso[task.setvariable variable=shorthash;isOutput=true]${BUILD_SOURCEVERSION:0:7}"
+            displayName: "Set shorthash"
+            name: ShortHash
+
+          - script: |
+              echo "##vso[task.setvariable variable=serviceName;isOutput=true]${{ parameters.namespace }}-${{ parameters.application }}-service"
+            displayName: "Set Service Name"
+            name: ServiceName
+
+  - stage: Build
+    dependsOn: Setup
+    jobs:
+      - job: BuildImage
+        variables:
+          envVar: $[ stageDependencies.Setup.Initialize.outputs['BranchName.envVar'] ]
+          shorthash: $[ stageDependencies.Setup.Initialize.outputs['ShortHash.shorthash'] ]
+          ecsCluster: $[ stageDependencies.Setup.Initialize.outputs['BranchName.ecsCluster'] ]
+          serviceName: $[ stageDependencies.Setup.Initialize.outputs['ServiceName.serviceName'] ]
+
+        steps:
+          - script: |
+              echo "envVar: $(envVar)"
+              echo "shorthash: $(shorthash)"
+              echo "ecsCluster: $(ecsCluster)"
+              echo "serviceName: $(serviceName)"
+            displayName: "Debug: Print Variable Values"
+
+          - task: "Docker@1"
+            displayName: "Build: ${{ parameters.description }}"
+            inputs:
+              containerregistrytype: "Container Registry"
+              imageName: "${{ parameters.application }}:$(shorthash)"
+              qualifyImageName: false
+              command: "Build an image"
+
+          - script: |
+              docker save ${{ parameters.application }}:$(shorthash) | gzip > $(Build.ArtifactStagingDirectory)/${{ parameters.application }}-$(shorthash).tar.gz
+            displayName: "Save: ${{ parameters.description }}"
+
+          - task: PublishBuildArtifacts@1
+            displayName: "Publish: ${{ parameters.description }}"
+            inputs:
+              PathtoPublish: "$(Build.ArtifactStagingDirectory)"
+              ArtifactName: "${{ parameters.application }}"
+              publishLocation: "Container"
+
+  - stage: Publish_to_ECR
+    condition: and(succeeded(), in(variables['Build.SourceBranchName'], 'develop', 'homolog', 'master'))
+    dependsOn:
+      - Setup
+      - Build
+    jobs:
+      - job: PublishImage
+        variables:
+          envVar: $[ stageDependencies.Setup.Initialize.outputs['BranchName.envVar'] ]
+          shorthash: $[ stageDependencies.Setup.Initialize.outputs['ShortHash.shorthash'] ]
+          ecsCluster: $[ stageDependencies.Setup.Initialize.outputs['BranchName.ecsCluster'] ]
+          serviceName: $[ stageDependencies.Setup.Initialize.outputs['ServiceName.serviceName'] ]
+
+        steps:
+          - script: |
+              echo "envVar: $(envVar)"
+              echo "shorthash: $(shorthash)"
+              echo "ecsCluster: $(ecsCluster)"
+              echo "serviceName: $(serviceName)"
+            displayName: "Debug: Print Variable Values"
+
+          - task: DownloadBuildArtifacts@1
+            displayName: "Download: ${{ parameters.description }}"
+            inputs:
+              buildType: "current"
+              artifactName: "${{ parameters.application }}"
+              downloadPath: "$(System.ArtifactsDirectory)"
+              downloadType: "single"
+              itemPattern: "**/*.tar.gz"
+
+          - script: |
+              gzip -d $(System.ArtifactsDirectory)/${{ parameters.application }}/${{ parameters.application }}-$(shorthash).tar.gz
+              docker load -i $(System.ArtifactsDirectory)/${{ parameters.application }}/${{ parameters.application }}-$(shorthash).tar
+            displayName: "Load: ${{ parameters.description }}"
+
+          - task: "AmazonWebServices.aws-vsts-tools.ECRPushImage.ECRPushImage@1"
+            condition: and(succeeded(), ne(variables['envVar'], 'unknown'))
+            displayName: "Push: ${{ parameters.description }} : latest"
+            inputs:
+              awsCredentials: "Dev_AzureDevOpsPipeline"
+              regionName: "us-east-1"
+              sourceImageName: "${{ parameters.application }}"
+              sourceImageTag: "$(shorthash)"
+              repositoryName: "${{ parameters.application }}-$(envVar)"
+
+          - task: "AmazonWebServices.aws-vsts-tools.ECRPushImage.ECRPushImage@1"
+            condition: and(succeeded(), ne(variables['envVar'], 'unknown'))
+            displayName: "Push: ${{ parameters.description }}: shorthash"
+            inputs:
+              awsCredentials: "Dev_AzureDevOpsPipeline"
+              regionName: "us-east-1"
+              sourceImageName: "${{ parameters.application }}"
+              sourceImageTag: "$(shorthash)"
+              repositoryName: "${{ parameters.application }}-$(envVar)"
+              pushTag: "$(shorthash)"
+
+  - stage: Deploy
+    condition: and(succeeded(), in(variables['Build.SourceBranchName'], 'develop', 'homolog', 'master'))
+    dependsOn:
+      - Setup
+      - Build
+      - Publish_to_ECR
+    jobs:
+      - job: Deploy
+        variables:
+          envVar: $[ stageDependencies.Setup.Initialize.outputs['BranchName.envVar'] ]
+          shorthash: $[ stageDependencies.Setup.Initialize.outputs['ShortHash.shorthash'] ]
+          ecsCluster: $[ stageDependencies.Setup.Initialize.outputs['BranchName.ecsCluster'] ]
+          serviceName: $[ stageDependencies.Setup.Initialize.outputs['ServiceName.serviceName'] ]
+
+        steps:
+          - script: |
+              echo "envVar: $(envVar)"
+              echo "shorthash: $(shorthash)"
+              echo "ecsCluster: $(ecsCluster)"
+              echo "serviceName: $(serviceName)"
+            displayName: "Debug: Print Variable Values"
+
+          - task: "AmazonWebServices.aws-vsts-tools.AWSCLI.AWSCLI@1"
+            displayName: "Deploy: ${{ parameters.description }} $(envVar))"
+            condition: and(succeeded(), ne(variables['envVar'], 'unknown'))
+            inputs:
+              awsCredentials: "Dev_AzureDevOpsPipeline"
+              regionName: "us-east-1"
+              awsCommand: ecs
+              awsSubCommand: "update-service"
+              awsArguments: "--cluster $(ecsCluster) --service $(envVar)-$(serviceName) --force-new-deployment"
+              failOnStandardError: false
