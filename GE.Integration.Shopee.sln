@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E7B902BB-BEFB-41A1-A796-B10E23A60E91}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nuget", "Nuget", "{B4EB45D0-65D3-4688-8E81-ADADFA90CE91}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GE.Contracts", "src\Nuget\GE.Contracts\GE.Contracts.csproj", "{7BA1C950-5878-49DF-9C97-7CA35FBDD0A8}"
@@ -12,6 +10,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{53BBCC51-FDC6-4914-87A7-C344E5A58955}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GE.Integration.Shopee.Api", "GE.Integration.Shopee.Api.csproj\GE.Integration.Shopee.Api.csproj", "{6972FDE9-1F72-48D9-9B5D-3CDAFD12EA3A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GE.Integration.Shopee.Domain", "GE.Integration.Shopee.Domain\GE.Integration.Shopee.Domain.csproj", "{87FAD10D-F762-4184-BC7B-E47AF97E34A6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GE.Integration.Shopee.Model", "GE.Integration.Shopee.Model\GE.Integration.Shopee.Model.csproj", "{2EF9537E-D939-41A9-846F-7E564089C6B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,14 @@ Global
 		{6972FDE9-1F72-48D9-9B5D-3CDAFD12EA3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6972FDE9-1F72-48D9-9B5D-3CDAFD12EA3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6972FDE9-1F72-48D9-9B5D-3CDAFD12EA3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87FAD10D-F762-4184-BC7B-E47AF97E34A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87FAD10D-F762-4184-BC7B-E47AF97E34A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87FAD10D-F762-4184-BC7B-E47AF97E34A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87FAD10D-F762-4184-BC7B-E47AF97E34A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EF9537E-D939-41A9-846F-7E564089C6B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EF9537E-D939-41A9-846F-7E564089C6B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EF9537E-D939-41A9-846F-7E564089C6B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EF9537E-D939-41A9-846F-7E564089C6B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -34,6 +44,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{7BA1C950-5878-49DF-9C97-7CA35FBDD0A8} = {B4EB45D0-65D3-4688-8E81-ADADFA90CE91}
 		{6972FDE9-1F72-48D9-9B5D-3CDAFD12EA3A} = {53BBCC51-FDC6-4914-87A7-C344E5A58955}
+		{87FAD10D-F762-4184-BC7B-E47AF97E34A6} = {53BBCC51-FDC6-4914-87A7-C344E5A58955}
+		{2EF9537E-D939-41A9-846F-7E564089C6B8} = {53BBCC51-FDC6-4914-87A7-C344E5A58955}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6FA2F023-9C9B-4B1C-BF12-72D80D5BE951}
