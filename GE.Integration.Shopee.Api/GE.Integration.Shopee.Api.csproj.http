@@ -1,6 +1,0 @@
-@GE.Integration.Shopee.Api.csproj_HostAddress = http://localhost:5239
-
-GET {{GE.Integration.Shopee.Api.csproj_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
