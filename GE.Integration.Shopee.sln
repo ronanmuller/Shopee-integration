@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GE.Integration.Shopee.Infra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GE.Integration.Shopee.Infra.External", "GE.Integration.Shopee.Infra.External\GE.Integration.Shopee.Infra.External.csproj", "{472932A9-1CCD-4FE3-9A47-7F88FF0D7117}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GE.Integration.Shopee.Api", "GE.Integration.Shopee.Api\GE.Integration.Shopee.Api.csproj", "{8753E5C3-E2B8-4040-A3D7-2FA8C350EB1B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{472932A9-1CCD-4FE3-9A47-7F88FF0D7117}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{472932A9-1CCD-4FE3-9A47-7F88FF0D7117}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{472932A9-1CCD-4FE3-9A47-7F88FF0D7117}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8753E5C3-E2B8-4040-A3D7-2FA8C350EB1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8753E5C3-E2B8-4040-A3D7-2FA8C350EB1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8753E5C3-E2B8-4040-A3D7-2FA8C350EB1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8753E5C3-E2B8-4040-A3D7-2FA8C350EB1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{AA20E31F-0B6B-4A3F-9A3E-DCB103FAA6A5} = {53BBCC51-FDC6-4914-87A7-C344E5A58955}
 		{B4AC2B0F-0D4D-41F4-8294-1C0328B87B73} = {53BBCC51-FDC6-4914-87A7-C344E5A58955}
 		{472932A9-1CCD-4FE3-9A47-7F88FF0D7117} = {53BBCC51-FDC6-4914-87A7-C344E5A58955}
+		{8753E5C3-E2B8-4040-A3D7-2FA8C350EB1B} = {53BBCC51-FDC6-4914-87A7-C344E5A58955}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6FA2F023-9C9B-4B1C-BF12-72D80D5BE951}
