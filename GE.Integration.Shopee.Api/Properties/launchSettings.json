@@ -16,7 +16,25 @@
       "launchUrl": "swagger",
       "applicationUrl": "http://localhost:5235",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "AWS_ACCESS_KEY_ID": "",
+        "AWS_SECRET_ACCESS_KEY": "",
+        "AWS_SESSION_TOKEN": "",
+        "AWS_ORDER_DETAILS": "",
+        "AWS_ORDER_INTEGRATION_CORE": "",
+        "AWS_PRODUCT_DETAILS": "",
+        "AWS_PRODUCT_INTEGRATION_CORE": "",
+        "AWS_STOCK_DETAILS": "",
+        "AWS_STOCK_INTEGRATION_CORE": "",
+        "AWS_CAMPAIGN_DETAILS": "",
+        "AWS_CAMPAIGN_INTEGRATION_CORE": "",
+        "AWS_REDIS_CACHE_CUSTOMERAPPLICATIONS": "",
+        "AWS_REDIS_CACHE_CUSTOMERAPPLICATIONS_CLUSTERNAME": "",
+        "HOST_SHOPEE": "",
+        "PARTNER_ID": "",
+        "PARTNER_KEY": "",
+        "URL_CALLBACK_SHOPEE": "",
+        "CONNECTION_STRING": ""
       }
     },
     "https": {
@@ -52,7 +70,25 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "AWS_ACCESS_KEY_ID": "",
+        "AWS_SECRET_ACCESS_KEY": "",
+        "AWS_SESSION_TOKEN": "",
+        "AWS_ORDER_DETAILS": "",
+        "AWS_ORDER_INTEGRATION_CORE": "",
+        "AWS_PRODUCT_DETAILS": "",
+        "AWS_PRODUCT_INTEGRATION_CORE": "",
+        "AWS_STOCK_DETAILS": "",
+        "AWS_STOCK_INTEGRATION_CORE": "",
+        "AWS_CAMPAIGN_DETAILS": "",
+        "AWS_CAMPAIGN_INTEGRATION_CORE": "",
+        "AWS_REDIS_CACHE_CUSTOMERAPPLICATIONS": "",
+        "AWS_REDIS_CACHE_CUSTOMERAPPLICATIONS_CLUSTERNAME": "",
+        "HOST_SHOPEE": "",
+        "PARTNER_ID": "",
+        "PARTNER_KEY": "",
+        "URL_CALLBACK_SHOPEE": "",
+        "CONNECTION_STRING": ""
       }
     }
   }
