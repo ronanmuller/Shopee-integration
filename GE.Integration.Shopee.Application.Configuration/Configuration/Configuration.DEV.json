@@ -1,0 +1,37 @@
+{
+  "Jwt": {
+    "Key": "F2158F01-53D4-4D52-806F-0144E00FFC97",
+    "Issuer": "https://gestaoecommerce.com.br",
+    "Audience": "https://api-act.gestaoecommerce.com.br"
+  },
+  "Port": 3754,
+  "RateLimit":  25,
+  "fileDataSettings": {
+    "comment": "0-Local / 1-AWS / 2-Azure / 3-GCP",
+    "storageBucket": "App_Data\\Files",
+    "fileDataStorage": 0,
+    "awsProfileName": null,
+    "awsAccessKey": null,
+    "awsSecretKey": null,
+    "azureAccessKey": null,
+    "googleCredentialFile": null
+  },
+  "services": [
+    {
+      "serviceName": "Base.Core",
+      "serviceUri": null,
+      "repository": {
+        "provider": "SqlServer",
+        "connectionString": "Data Source=DESKTOP-R5VHAO6\\SQLEXPRESS;Initial Catalog=dbGE;User ID=sa;Password=sa; TrustServerCertificate=true"
+      }
+    },
+    {
+      "serviceName": "Auth",
+      "serviceUri": ""
+    },
+    {
+      "serviceName": "Notification",
+      "serviceUri": ""
+    }
+  ]
+}
