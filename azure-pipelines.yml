@@ -1,0 +1,52 @@
+trigger:
+  branches:
+    include:
+      - master
+      - develop
+      - homolog
+
+pr:
+  branches:
+    include:
+      - "*"
+
+pool:
+  vmImage: "ubuntu-latest"
+
+parameters:
+  - name: application
+    type: string
+    default: "shopee-api"
+  - name: description
+    type: string
+    default: "GE Shopee API"
+  - name: servicename
+    type: string
+    default: "gecom-shopee-api-service"
+
+resources:
+  repositories:
+    - repository: templateRepo
+      type: git
+      name: GEcommerce/PipelineTemplates
+      ref: refs/heads/master
+
+stages:
+  - template: ecs/setup-template.yml@templateRepo
+    parameters:
+      application: ${{ parameters.application }}
+
+  - template: ecs/build-template.yml@templateRepo
+    parameters:
+      description: ${{ parameters.description }}
+      application: ${{ parameters.application }}
+
+  - template: ecs/publish-to-ecr-template.yml@templateRepo
+    parameters:
+      description: ${{ parameters.description }}
+      application: ${{ parameters.application }}
+
+  - template: ecs/deploy-template.yml@templateRepo
+    parameters:
+      description: ${{ parameters.description }}
+      servicename: ${{ parameters.servicename}}
