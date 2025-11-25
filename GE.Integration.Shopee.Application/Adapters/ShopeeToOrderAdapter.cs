@@ -1,6 +1,4 @@
-﻿using GE.Contracts.DomainModels.Interfaces;
-using GE.Contracts.DomainModels.Orders;
-using GE.Integration.Shopee.Domain.Response.Orders;
+﻿using GE.Integration.Shopee.Domain.Response.Orders;
 using GE.Integration.Shopee.Domain.Response.Payment;
 using GE.Integration.Shopee.Domain.Response.Shop;
 
@@ -97,96 +95,6 @@ namespace GE.Integration.Shopee.Application.Adapters
         public decimal TotalGrossValue() => _orderItem.total_amount == null ? 0 : Convert.ToDecimal(_orderItem.total_amount);
 
         public string FreightMode() => _orderItem.shipping_carrier;
-
-        public ICollection<OrderItem> OrderItems()
-        {
-            var orderItemList = new List<OrderItem>();
-
-            foreach (var item in _orderItem.item_list)
-            {
-                var newOrderItem = new OrderItem
-                {
-                    OrderID = _orderItem.order_sn,
-                    SKU = item.item_sku,
-                    ItemId = item.item_id != null ? item.item_id.ToString() : string.Empty,
-                    SoldAmount = item.model_quantity_purchased,
-                    SoldValue = item.model_discounted_price != null ? Convert.ToDecimal(item.model_discounted_price) : 0,
-                    ProductName = item.item_name + " - " + item.model_name
-                };
-
-                orderItemList.Add(newOrderItem);
-            }
-
-            return orderItemList;
-        }
-
-        public Payment Payment()
-        {
-           
-            DateTime? payTime = null;
-            if (!string.IsNullOrEmpty(_orderItem.pay_time))
-                payTime = UnixTimeToDateTime(Convert.ToInt64(_orderItem.pay_time));
-
-            var payment = new Payment
-            {
-                PaymentForm = _escrowDetail.response.order_income.buyer_payment_method,
-                PaymentMethod = _escrowDetail.response.order_income.buyer_payment_method,
-                PaymentDate = payTime,
-                Installments = null,
-                PaymentInternalId = _orderItem.order_sn,
-                OrderId = _orderItem.order_sn,
-                RebateCommissionValue = _escrowDetail.response.order_income.shopee_discount,
-                AllCommissionValue = GetAllComissionValue
-                    (_escrowDetail.response.order_income.seller_transaction_fee + 
-                     _escrowDetail.response.order_income.service_fee + _escrowDetail.response.order_income.commission_fee),
-                EcommerceNumber = _orderItem.order_sn
-
-        };
-
-            return payment;
-        }
-
-        public Shipping Shipping()
-        {
-            var shipping = new Shipping
-            {
-                State = _orderItem.recipient_address.state,
-                City = _orderItem.recipient_address.city,
-                ShippingCompany = _orderItem.shipping_carrier,
-                ShippingMethod = _orderItem.shipping_carrier,
-                ShippingSent = _orderItem.shipping_carrier,
-                ShippingBy = _orderItem.shipping_carrier,
-                TrackingCode = _orderItem.package_list == null ||
-                               !_orderItem.package_list.Any() ? string.Empty : _orderItem.package_list[0].package_number,
-                ShippingValuePaidOut = _escrowDetail.response.order_income.buyer_paid_shipping_fee.ToString(),
-                ShippingInternalCode = _orderItem.package_list == null ||
-                                       !_orderItem.package_list.Any() ? string.Empty : _orderItem.package_list[0].package_number,
-                OrderId = _orderItem.order_sn,
-                ShippingType = _orderItem.shipping_carrier,
-                ShippingInternalType = _orderItem.fulfillment_flag,
-                ShippingPaidStore = _orderItem.actual_shipping_fee,
-                ShippingRebate = _escrowDetail.response.order_income.shopee_shipping_rebate,
-                ShippingValuePaidClient = _escrowDetail.response.order_income.buyer_paid_shipping_fee,
-                EcommerceNumber = _orderItem.order_sn
-        };
-
-            return shipping;
-        }
-
-        public Client OrderClient()
-        {
-            var client = new Client
-            {
-                Name = _orderItem.recipient_address.name,
-                State = _orderItem.recipient_address.state,
-                City = _orderItem.recipient_address.city,
-                Document = _orderItem.buyer_cpf_id,
-                OrderId = _orderItem.order_sn,
-                Phone = _orderItem.recipient_address.phone, 
-            };
-
-            return client;
-        }
 
         public string BookMarks() => string.Empty;
 

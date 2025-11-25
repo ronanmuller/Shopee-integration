@@ -29,7 +29,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\3.Domain\GE.Integration.Shopee.Model\GE.Integration.Shopee.Model.csproj" />
+    <ProjectReference Include="..\GE.Integration.Shopee.Domain\GE.Integration.Shopee.Domain.csproj" />
+    <ProjectReference Include="..\GE.Integration.Shopee.Infra.External\GE.Integration.Shopee.Infra.External.csproj" />
+    <ProjectReference Include="..\GE.Integration.Shopee.Model\GE.Integration.Shopee.Model.csproj" />
   </ItemGroup>
 
 </Project>

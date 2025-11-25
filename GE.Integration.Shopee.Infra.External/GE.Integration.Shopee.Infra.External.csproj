@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\3.Domain\GE.Integration.Shopee.Domain\GE.Integration.Shopee.Domain.csproj" />
+    <ProjectReference Include="..\GE.Integration.Shopee.Domain\GE.Integration.Shopee.Domain.csproj" />
   </ItemGroup>
 
 </Project>

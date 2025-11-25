@@ -1,6 +1,4 @@
-﻿using GE.Contracts.DomainModels.Campaigns;
-using GE.Contracts.DomainModels.Interfaces;
-using GE.Integration.Shopee.Application.Helpers;
+﻿using GE.Integration.Shopee.Application.Helpers;
 using Response = GE.Integration.Shopee.Domain.Response.Campaign.Response;
 
 namespace GE.Integration.Shopee.Application.Adapters

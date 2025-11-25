@@ -8,7 +8,7 @@ namespace GE.Integration.Shopee.Application.Services.Product
         Task<IActionResult> GetItemList(Guid customerId, string accessToken, int shopId, DateTime dateCreatedFrom,
             DateTime dateCreatedTo,
             long? customerPlanId, CancellationToken cancellationToken);
-        Task<Contracts.DomainModels.Products.Product> GetItemDetail(WebHookPost webhookMessage);
+        Task<> GetItemDetail(WebHookPost webhookMessage);
 
     }
 }

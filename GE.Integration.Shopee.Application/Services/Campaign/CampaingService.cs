@@ -1,5 +1,4 @@
-﻿using GE.Contracts.DomainModels.Adpters.Interfaces;
-using GE.Integration.Shopee.Application.Adapters;
+﻿using GE.Integration.Shopee.Application.Adapters;
 using GE.Integration.Shopee.Application.Aws;
 using GE.Integration.Shopee.Infra.External.Campaigns;
 using Newtonsoft.Json;
@@ -43,17 +42,17 @@ namespace GE.Integration.Shopee.Application.Services.Campaign
                     foreach (var campaign in campaignList)
                     {
                         var returnCampaign = new ShopeeToCampaingAdapter(campaign);
-                        var campaignAdapter = await _campaignServiceAdapter.ConvertToCampaignAdapter(returnCampaign);
-                        campaignAdapter.CustomerId = customerId;
+                        ////var campaignAdapter = await _campaignServiceAdapter.ConvertToCampaignAdapter(returnCampaign);
+                        //campaignAdapter.CustomerId = customerId;
 
-                        var objectRequest = new ObjectRequest
-                        {
-                            EntityType = ETypeEntity.Campaign,
-                            JsonObject = JsonConvert.SerializeObject(campaignAdapter),
-                            HashIntegracao = SHOPEE
-                        };
+                        //var objectRequest = new ObjectRequest
+                        //{
+                        //    EntityType = ETypeEntity.Campaign,
+                        //    JsonObject = JsonConvert.SerializeObject(campaignAdapter),
+                        //    HashIntegracao = SHOPEE
+                        //};
 
-                        var json = JsonConvert.SerializeObject(objectRequest);
+                        var json = JsonConvert.SerializeObject(null);
 
                         await _awsService.SendAwsMessage(json, AWS_CAMPAIGN_INTEGRATION_CORE);
                     }

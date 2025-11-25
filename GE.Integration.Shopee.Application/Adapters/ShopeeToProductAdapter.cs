@@ -1,6 +1,4 @@
 ﻿using System.Globalization;
-using GE.Contracts.DomainModels.Interfaces;
-using GE.Contracts.DomainModels.Products;
 using GE.Integration.Shopee.Domain.Response.Products;
 using GE.Integration.Shopee.Domain.Response.WebHook;
 using GE.Integration.Shopee.Infra.External.Products;

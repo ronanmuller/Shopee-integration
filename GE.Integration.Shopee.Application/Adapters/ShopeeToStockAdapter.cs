@@ -1,5 +1,4 @@
-﻿using GE.Contracts.DomainModels.Interfaces;
-using Prod = GE.Integration.Shopee.Domain.Response.Products;
+﻿using Prod = GE.Integration.Shopee.Domain.Response.Products;
 
 namespace GE.Integration.Shopee.Application.Adapters
 {
